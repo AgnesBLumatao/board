@@ -1,12 +1,19 @@
-<h1>All threads</h1>
-<ul>
-<?php foreach ($threads as $v): ?>
-<li>
-<a href="<?php eh(url('thread/view', array('thread_id' => $v->id))) ?>">
-<?php eh($v->title) ?>
-</a>
-</li>
-<?php endforeach ?>
-</ul>
-
-<a class="btn btn-large btn-primary" href="<?php eh(url('thread/create')) ?>">Create</a>
+<table width="100%">
+<tr>
+<td>
+<h1>LOG IN</h1>
+</td>
+<td align="right">
+<a class="btn btn-large btn-primary" href="<?php eh(url('thread/register')) ?>">SIGN UP</a>
+</td>
+</tr>
+</table>
+<hr>
+<form method="post" action="<?php eh($login) ?>">
+<label>USERNAME:</label>
+<input type="text" class="span3" name="username" value="<?php eh(Param::get('username')) ?>"/>
+<label>PASSWORD:</label>
+<input type="text" class="span3" name="password" value="<?php eh(Param::get('password')) ?>"/>
+<br />
+<button type="submit" class="btn btn-primary">LOGIN</a>
+</form>
