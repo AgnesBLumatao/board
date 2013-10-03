@@ -49,35 +49,56 @@ public static function getAccount($username, $password)
 
 public static function getAll($user_id,$page)
 {
+	$limit=5;
+	$offset=($page-1)*$limit;
 	$threads = array();
 	$db = DB::conn();
-	$rows = $db->rows('SELECT * FROM thread where user_id=?', array($user_id));
+	$allThreads= $db->rows("SELECT * FROM thread where user_id=?", array($user_id));
+	$query="SELECT * FROM thread where user_id=? LIMIT ".$limit." OFFSET ".$offset;
+	$rows = $db->rows($query, array($user_id));
 
 		foreach ($rows as $v) {
 		$threads[] = array('id'=>$v['id'],'title'=>$v['title']);
 		}
 
-	$limit=5;
-	$totalThread=count($threads);
-	$totalPage=ceil($totalThread/$limit);
-	$start=($page*$limit)-$limit;
-	if($page!=$totalPage){
-	$end=($page*$limit)-1;
-	}
-	else{
-	$end=$totalThread-1;
-	}
+	//for pagination
+	$countThread=count($allThreads);
+	$totalThread=count($rows);
+	$totalPage=ceil($countThread/$limit);
+
+	//maximum links to page number
+	$max=10;
 	
-	//no page option for pages greater than 10
-	//use the next link to access pages greater than 10
-	if($totalPage>10){
-	$nums=10;
-	}
-	else{
-	$nums=$totalPage;
+	//number of pages to skip
+	$x=(floor($page/$max))*$max;
+
+	$remaining=$totalPage-$x;
+	//get the remaining pages
+
+	if($page==$x || $remaining>10){
+	$remaining=10;
 	}
 
-	return array($threads,$limit,$totalPage,$start,$end,$nums,$page,$totalThread);
+	//get the start of page numbers
+	if($page==$x){
+	$start=$x-9;
+	}
+
+	else{
+	$start=$x+1;
+	}
+	
+	
+	//get the end of page numbers
+	if($remaining>0){
+	$nums=$start+$remaining;
+
+	}
+	else{
+	$nums=$start+10;
+	}
+	
+	return array($threads,$totalThread,$totalPage,$nums,$start);
 }
 
 public static function checkThread($title,$user_id)
@@ -93,39 +114,62 @@ public static function checkThread($title,$user_id)
 
 public function getComments($page)
 {
+	$limit=5;
 	$comments = array();
 	$db = DB::conn();
-	$rows = $db->rows('SELECT * FROM comment WHERE thread_id = ? ORDER BY created ASC', array($this->id));
+	$allComments = $db->rows('SELECT * FROM comment WHERE thread_id = ? ORDER BY created ASC', array($this->id));
+	
+	$countComment=count($allComments);
+	$totalPage=ceil($countComment/$limit);
+	//thread goes to page where new comment is inserted
+	if($page==0){
+	$page=$totalPage;
+	}
+	
+	
+	$offset=($page-1)*$limit;
+	$query="SELECT * FROM comment WHERE thread_id = ? ORDER BY created ASC LIMIT ".$limit." OFFSET ".$offset;
+	$rows = $db->rows($query, array($this->id));
 		foreach ($rows as $k => $v) {
 		$comments[] = array('created'=>$v['created'],'body'=>$v['body']);
 		}
 
-	$limit=5;
+	//for pagination
 	$totalComment=count($comments);
-	$totalPage=ceil($totalComment/$limit);
-		//thread goes to page where new comment is inserted
-		if($page==0){
-		$page=$totalPage;
-		}
 
-	$start=($page*$limit)-$limit;
-	if($page!=$totalPage){
-	$end=($page*$limit)-1;
+	//maximum links to page number
+	$max=10;
+
+	//number of pages to skip
+	$x=(floor($page/$max))*$max;
+	
+	$remaining=$totalPage-$x;
+	//get the remaining pages
+
+	if($page==$x || $remaining>10){
+	$remaining=10;
+	}
+	
+	
+	//get the start of page numbers
+	if($page==$x){
+	$start=$x-9;
+	}
+
+	else{
+	$start=$x+1;
+	}
+
+	//get the end of page numbers
+	if($remaining>0){
+	$nums=$start+$remaining;
+
 	}
 	else{
-	$end=$totalComment-1;
+	$nums=$start+10;
 	}
 
-	//no page option for pages greater than 10
-	//use the next link to access pages greater than 10
-	if($totalPage>10){
-	$nums=10;
-	}
-	else{
-	$nums=$totalPage;
-	}
-
-	return array($comments,$limit,$totalPage,$start,$end,$nums,$page);
+	return array($comments,$totalComment,$totalPage,$nums,$page,$start);
 }
 
 public function create(Comment $comment)
