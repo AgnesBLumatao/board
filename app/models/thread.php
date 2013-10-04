@@ -1,7 +1,11 @@
 <?php
 class Thread extends AppModel
 {
-	const LIMIT = 5, PAGE_MAX = 10, START_ONE = 9, START_TWO = 1, NEW_CREATE = 0;
+	const THREAD_COMMENT_LIMIT = 5;
+	const PAGE_MAX = 10;
+	const START_ONE = 9;
+	const START_TWO = 1;
+	const NEW_CREATE = 0;
 
 	//title must be 1-30 characters of length
 	public $validation = array(
