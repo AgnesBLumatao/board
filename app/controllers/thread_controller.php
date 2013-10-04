@@ -1,7 +1,7 @@
 <?php
 class ThreadController extends AppController
 {
-	const PAGE_SET=9;
+	const PAGE_SET = 9;
 	
 	public function register()
     {
@@ -10,7 +10,7 @@ class ThreadController extends AppController
         $password = Param::get('password');
         $thread = new Thread;
         $account = new Account;
-        $user_exist=$thread->isUserExisting($username, $password);
+        $user_exist = $thread->isUserExisting($username, $password);
         $page = Param::get('page_next', 'register');
 		
 		switch ($page) {
@@ -45,9 +45,9 @@ class ThreadController extends AppController
 
     public function index()
     {
-        $invalid=FALSE;
-        $username=Param::get('username');
-        $password=Param::get('password');
+        $invalid = FALSE;
+        $username = Param::get('username');
+        $password = Param::get('password');
         $login = Thread::getAccount($username, $password);
         $page = Param::get('page_next', 'index');
 
@@ -59,7 +59,7 @@ class ThreadController extends AppController
 			    try {
                     if (!$login){
                     $page = 'index';
-                    $invalid=TRUE;
+                    $invalid = TRUE;
                     }
 			    } catch (ValidationException $e) {
 			        $page = 'index';
@@ -84,15 +84,15 @@ class ThreadController extends AppController
             'user_id'=>Param::get('user_id'),
             'username'=>Param::get('username')
         );
-        $tmp = Thread::getAll($user['user_id'],$page);
+        $tmp = Thread::getAll($user['user_id'], $page);
         $threads = $tmp[0];
         $totalThread = $tmp[1];
         $totalPage = $tmp[2];
         $nums = $tmp[3];
         $start = $tmp[4];
-		$previous=$start-Thread::PAGE_MAX;
-		$next=$start+Thread::PAGE_MAX;
-		$lastPage=$start+self::PAGE_SET;
+		$previous = $start - Thread::PAGE_MAX;
+		$next = $start + Thread::PAGE_MAX;
+		$lastPage = $start + self::PAGE_SET;
         $this->set(get_defined_vars());
     }
 
@@ -101,9 +101,9 @@ class ThreadController extends AppController
     public function write()
     {
         $comment = new Comment;
-        $page=Param::get('page');
+        $page = Param::get('page');
         $user_id = Param::get('user_id');
-        $username= Param::get('username');
+        $username = Param::get('username');
         $page = Param::get('page_next', 'write');
         $thread = Thread::get(Param::get('thread_id'));
 
@@ -151,7 +151,7 @@ class ThreadController extends AppController
 
             case 'create_end':
                 $thread->title = $title;
-                $comment->user_id =$user['user_id'];
+                $comment->user_id = $user['user_id'];
                 $comment->body = Param::get('body');
 
                 try {
@@ -177,21 +177,21 @@ class ThreadController extends AppController
 
     public function view()
     {
-        $page=Param::get('thread_id');
-        $username=Param::get('username');
-        $user_id=Param::get('user_id');
+        $page = Param::get('thread_id');
+        $username = Param::get('username');
+        $user_id = Param::get('user_id');
         $thread = Thread::get($page);
         $tmp = $thread->getComments(Param::get('page'));
-        $comments=$tmp[0];
-        $totalComment=$tmp[1];
-        $totalPage=$tmp[2];
-        $nums=$tmp[3];
-        $start=$tmp[4];
-        $page=$tmp[5];
-		$previous=$start-Thread::PAGE_MAX;
-		$next=$start+Thread::PAGE_MAX;
-		$lastPage=$start+self::PAGE_SET;
-		$previousPage=$page-1;
+        $comments = $tmp[0];
+        $totalComment = $tmp[1];
+        $totalPage = $tmp[2];
+        $nums = $tmp[3];
+        $start = $tmp[4];
+        $page = $tmp[5];
+		$previous = $start - Thread::PAGE_MAX;
+		$next = $start + Thread::PAGE_MAX;
+		$lastPage = $start + self::PAGE_SET;
+		$previousPage = $page - 1;
         $this->set(get_defined_vars());
     }
 
