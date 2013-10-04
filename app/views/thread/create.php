@@ -1,10 +1,10 @@
-<table width="100%">
+<table width = "100%">
 	<tr>
 		<td>
 		    <h1>Create a thread</h1>
 		</td>
 		
-		<td align="right">
+		<td align = "right">
             <h5>WELCOME <?php eh($user['username']) ?>
                 <a class="btn btn-small btn-primary" href="<?php eh(url('thread/index')) ?>">LOG OUT</a>
             </h5>
@@ -13,7 +13,7 @@
 </table>
 
 <?php
-if ($thread->hasError() || $comment->hasError()) : ?>
+if ($thread->hasError() OR $comment->hasError()) : ?>
 	<div class="alert alert-block">
 	<h4 class="alert-heading">Validation error!</h4>
 <?php
