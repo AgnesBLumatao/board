@@ -29,7 +29,7 @@ class Thread extends AppModel
             "password"=>md5($account->password)
         );
 
-        $db->insert("account",$params);
+        $db->insert("account", $params);
 	    return $db->lastInsertId();
     }
 
@@ -45,7 +45,7 @@ class Thread extends AppModel
 	    $db = DB::conn();
 	    $row = $db->row(
             'SELECT id FROM account WHERE username = ? AND password = ?',
-            array($username,md5($password))
+            array($username, md5($password))
         );
 
 		//if account exist
@@ -57,23 +57,23 @@ class Thread extends AppModel
 	    $db = DB::conn();
 	    $login = $db->row(
             "SELECT id,username FROM account WHERE username = ? AND password = ?",
-            array($username,md5($password))
+            array($username, md5($password))
         );
 	    return $login;
     }
 
     public static function getAll($user_id, $page)
     {
-        $offset=($page-1)*Thread::THREAD_COMMENT_LIMIT;
+        $offset = ($page - 1) * Thread::THREAD_COMMENT_LIMIT;
         $threads = array();
         $db = DB::conn();
-        $countThread= $db->value(
+        $countThread = $db->value(
             'SELECT count(id) FROM thread where user_id=?',
             array($user_id)
         );
 	
 	    $query="SELECT * FROM thread where user_id=? LIMIT "
-            .Thread::THREAD_COMMENT_LIMIT." OFFSET ".$offset;
+            . Thread::THREAD_COMMENT_LIMIT . " OFFSET " . $offset;
 	    $rows = $db->rows($query, array($user_id));
 
 		foreach ($rows as $v) {
@@ -90,7 +90,7 @@ class Thread extends AppModel
         $db = DB::conn();
         $row = $db->row(
             'SELECT id FROM thread where user_id = ? AND title = ?',
-            array($user_id,$title)
+            array($user_id, $title)
         );
 
         //check if thread title exists on the same account
@@ -106,16 +106,16 @@ class Thread extends AppModel
             array($this->id)
         );
 
-	    $totalPage=self::getTotalPage($countComment);
+	    $totalPage = self::getTotalPage($countComment);
 	
         //thread goes to page where new comment is inserted
-        if ($page==Thread::NEW_CREATE) {
+        if ($page == Thread::NEW_CREATE) {
             $page = $totalPage;
         }
 
-        $offset = ($page-1)*Thread::THREAD_COMMENT_LIMIT;
+        $offset = ($page - 1)*Thread::THREAD_COMMENT_LIMIT;
         $query = "SELECT * FROM comment WHERE thread_id = ?
-            ORDER BY created ASC LIMIT ".Thread::THREAD_COMMENT_LIMIT." OFFSET ".$offset;
+            ORDER BY created ASC LIMIT " . Thread::THREAD_COMMENT_LIMIT . " OFFSET " . $offset;
         $rows = $db->rows($query, array($this->id));
 
         foreach ($rows as $k => $v) {
@@ -165,7 +165,7 @@ class Thread extends AppModel
 
 
     public static function getTotalPage($rowCount){
-        return ceil($rowCount/Thread::THREAD_COMMENT_LIMIT);
+        return ceil($rowCount / Thread::THREAD_COMMENT_LIMIT);
     }
 
     public static function pagination($page, $totalPage, $array)
@@ -173,27 +173,27 @@ class Thread extends AppModel
 	    $totalRow = count($array);
 
         //number of pages to skip
-        $skip_page_count = (floor($page/Thread::PAGE_MAX))*Thread::PAGE_MAX;
+        $skip_page_count = (floor($page / Thread::PAGE_MAX)) * Thread::PAGE_MAX;
 
         //get the remaining pages
-	    $remaining = $totalPage-$skip_page_count;
+	    $remaining = $totalPage - $skip_page_count;
 
-	    if ($page==$skip_page_count OR $remaining>Thread::PAGE_MAX) {
-	        $remaining=Thread::PAGE_MAX;
+	    if ($page == $skip_page_count OR $remaining > Thread::PAGE_MAX) {
+	        $remaining = Thread::PAGE_MAX;
 	    }
 
 	    //get the start of page numbers
-	    if ($page==$skip_page_count) {
-	        $start = $skip_page_count-Thread::START_ONE;
+	    if ($page == $skip_page_count) {
+	        $start = $skip_page_count - Thread::START_ONE;
 	    } else {
-	        $start = $skip_page_count+Thread::START_TWO;
+	        $start = $skip_page_count + Thread::START_TWO;
 	    }
 
         //get the end of page numbers
-        if ($remaining>0) {
-            $end=$start+$remaining;
+        if ($remaining > 0) {
+            $end = $start + $remaining;
         } else {
-            $end=$start+Thread::PAGE_MAX;
+            $end = $start + Thread::PAGE_MAX;
         }
 
 	    return array($array, $totalRow, $totalPage, $end, $start, $page);
