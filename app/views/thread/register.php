@@ -39,7 +39,7 @@ elseif ($password!=$repassword) : ?>
         <div>Your <em>password</em> did not match.</div>
 	</div>
 <?php
-elseif ($userExist) : ?>
+elseif ($user_exist) : ?>
 	<div class="alert alert-block">
         <h4 class="alert-heading">Registration error!</h4>
         <div>Account already exist!</div>

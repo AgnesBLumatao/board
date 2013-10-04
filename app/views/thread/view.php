@@ -41,7 +41,7 @@ for ($x=0;$x<$totalComment;$x++) : ?>
 	<div class="comment">
 	
 		<div class="meta">
-		    <?php eh(($previousPage)*Thread::LIMIT+($x+1)) ?>:<?php eh($comments[$x]['created']) ?>
+		    <?php eh(($previousPage)*Thread::THREAD_COMMENT_LIMIT+($x+1)) ?>:<?php eh($comments[$x]['created']) ?>
 		</div>
 		
 		<div>
