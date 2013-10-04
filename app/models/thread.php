@@ -64,7 +64,7 @@ class Thread extends AppModel
 
     public static function getAll($user_id, $page)
     {
-        $offset=($page-1)*Thread::LIMIT;
+        $offset=($page-1)*Thread::THREAD_COMMENT_LIMIT;
         $threads = array();
         $db = DB::conn();
         $countThread= $db->value(
@@ -73,7 +73,7 @@ class Thread extends AppModel
         );
 	
 	    $query="SELECT * FROM thread where user_id=? LIMIT "
-            .Thread::LIMIT." OFFSET ".$offset;
+            .Thread::THREAD_COMMENT_LIMIT." OFFSET ".$offset;
 	    $rows = $db->rows($query, array($user_id));
 
 		foreach ($rows as $v) {
@@ -113,9 +113,9 @@ class Thread extends AppModel
             $page = $totalPage;
         }
 
-        $offset = ($page-1)*Thread::LIMIT;
+        $offset = ($page-1)*Thread::THREAD_COMMENT_LIMIT;
         $query = "SELECT * FROM comment WHERE thread_id = ?
-            ORDER BY created ASC LIMIT ".Thread::LIMIT." OFFSET ".$offset;
+            ORDER BY created ASC LIMIT ".Thread::THREAD_COMMENT_LIMIT." OFFSET ".$offset;
         $rows = $db->rows($query, array($this->id));
 
         foreach ($rows as $k => $v) {
@@ -165,7 +165,7 @@ class Thread extends AppModel
 
 
     public static function getTotalPage($rowCount){
-        return ceil($rowCount/Thread::LIMIT);
+        return ceil($rowCount/Thread::THREAD_COMMENT_LIMIT);
     }
 
     public static function pagination($page, $totalPage, $array)

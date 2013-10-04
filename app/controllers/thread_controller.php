@@ -10,7 +10,7 @@ class ThreadController extends AppController
         $password = Param::get('password');
         $thread = new Thread;
         $account = new Account;
-        $userExist=$thread->isUserExisting($username, $password);
+        $user_exist=$thread->isUserExisting($username, $password);
         $page = Param::get('page_next', 'register');
 		
 		switch ($page) {
@@ -23,7 +23,7 @@ class ThreadController extends AppController
                 $account->repassword = $repassword;
 
                 try {
-                    if (!$userExist) {
+                    if (!$user_exist) {
                         $user_id = $thread->register($account);
                     } else {
                         $page = 'register';
@@ -142,7 +142,7 @@ class ThreadController extends AppController
             'username'=>Param::get('username')
         );
         $title = Param::get('title');
-        $checkThread = Thread::isThreadExisting($title, Param::get('user_id'));
+        $thread_exist = Thread::isThreadExisting($title, Param::get('user_id'));
         $page = Param::get('page_next', 'create');
 
 		switch ($page) {
@@ -155,7 +155,7 @@ class ThreadController extends AppController
                 $comment->body = Param::get('body');
 
                 try {
-                    if (!$checkThread) {
+                    if (!$thread_exist) {
                         $thread->create($comment);
                     } else {
                         $page = 'create';
