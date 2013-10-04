@@ -33,7 +33,7 @@ if ($account->hasError()) : ?>
 <?php endif ?>
 	</div>
 <?php
-elseif ($password!=$repassword) : ?>
+elseif ($password != $repassword) : ?>
 	<div class="alert alert-block">
         <h4 class="alert-heading">Registration error!</h4>
         <div>Your <em>password</em> did not match.</div>
