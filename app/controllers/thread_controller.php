@@ -1,7 +1,7 @@
 <?php
 class ThreadController extends AppController
 {
-	const NUM_PAGES = 10, PAGE_SET=9;
+	const PAGE_SET=9;
 	
 	public function register()
     {
@@ -90,8 +90,8 @@ class ThreadController extends AppController
         $totalPage = $tmp[2];
         $nums = $tmp[3];
         $start = $tmp[4];
-		$previous=$start-self::NUM_PAGES;
-		$next=$start+self::NUM_PAGES;
+		$previous=$start-Thread::PAGE_MAX;
+		$next=$start+Thread::PAGE_MAX;
 		$lastPage=$start+self::PAGE_SET;
         $this->set(get_defined_vars());
     }
@@ -188,9 +188,10 @@ class ThreadController extends AppController
         $nums=$tmp[3];
         $start=$tmp[4];
         $page=$tmp[5];
-		$previous=$start-self::NUM_PAGES;
-		$next=$start+self::NUM_PAGES;
+		$previous=$start-Thread::PAGE_MAX;
+		$next=$start+Thread::PAGE_MAX;
 		$lastPage=$start+self::PAGE_SET;
+		$previousPage=$page-1;
         $this->set(get_defined_vars());
     }
 
