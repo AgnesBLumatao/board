@@ -27,8 +27,8 @@
 <hr>
 
 <h5>
-    PAGE <?php eh($page)?> OF <?php
-    if ($totalPage>0) :
+    PAGE <?php eh($page) ?> OF <?php
+    if ($totalPage > 0) :
         eh($totalPage);
     else :
         eh('1');
@@ -37,11 +37,11 @@
 
 <?php
 //show all comments
-for ($x=0;$x<$totalComment;$x++) : ?>
+for ($x = 0;$x < $totalComment;$x++) : ?>
 	<div class="comment">
 	
 		<div class="meta">
-		    <?php eh(($previousPage)*Thread::THREAD_COMMENT_LIMIT+($x+1)) ?>:<?php eh($comments[$x]['created']) ?>
+		    <?php eh(($previousPage) * Thread::THREAD_COMMENT_LIMIT + ($x + 1)) ?>:<?php eh($comments[$x]['created']) ?>
 		</div>
 		
 		<div>
@@ -53,12 +53,12 @@ for ($x=0;$x<$totalComment;$x++) : ?>
 endfor;
 
 //pagination
-if ($totalPage>1) : ?>
+if ($totalPage > 1) : ?>
     <table>
         <tr>
             <?php
             //link to previous 10 pages
-            if ($start!=1) : ?>
+            if ($start != 1) : ?>
                 <td>
                     <a href="<?php eh(url('thread/view', array('page'=>$previous, 'thread_id' => $thread->id, 'username'=>$username, 'user_id'=>$user_id))) ?>">
                     &larr; previous
@@ -68,8 +68,8 @@ if ($totalPage>1) : ?>
             endif;
 
             //links for page number
-            for ($x=$start;$x<$nums;$x++) :
-                if($x!=$page) : ?>
+            for ($x = $start;$x < $nums;$x++) :
+                if($x != $page) : ?>
                     <td>
                         <a href="<?php eh(url('thread/view', array('page'=>$x, 'thread_id' => $thread->id, 'username'=>$username, 'user_id'=>$user_id))) ?>">
                         <?php eh($x) ?>
@@ -85,7 +85,7 @@ if ($totalPage>1) : ?>
             endfor;
 
             //link to next 10 pages
-            if ($lastPage<$totalPage) : ?>
+            if ($lastPage < $totalPage) : ?>
                 <td>
                     <a href="<?php eh(url('thread/view', array('page'=>$next, 'thread_id' => $thread->id, 'username'=>$username, 'user_id'=>$user_id))) ?>">
                     next &rarr;
