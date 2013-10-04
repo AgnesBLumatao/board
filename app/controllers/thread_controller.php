@@ -23,7 +23,7 @@ class ThreadController extends AppController
                 $account->repassword = $repassword;
 
                 try {
-                    if (!($userExist)) {
+                    if (!$userExist) {
                         $user_id = $thread->register($account);
                     } else {
                         $page = 'register';
@@ -57,7 +57,7 @@ class ThreadController extends AppController
 
 			case 'login_end':
 			    try {
-                    if (!($login)){
+                    if (!$login){
                     $page = 'index';
                     $invalid=TRUE;
                     }
@@ -155,7 +155,7 @@ class ThreadController extends AppController
                 $comment->body = Param::get('body');
 
                 try {
-                    if (!($checkThread)) {
+                    if (!$checkThread) {
                         $thread->create($comment);
                     } else {
                         $page = 'create';
