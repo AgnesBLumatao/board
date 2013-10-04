@@ -14,9 +14,9 @@
 
 <br />
 <h5>
-    PAGE <?php eh($page)?> OF
+    PAGE <?php eh($page) ?> OF
 	<?php
-        if ($totalPage>0) :
+        if ($totalPage > 0) :
             eh($totalPage);
         else :
 	        eh('1');
@@ -26,8 +26,8 @@
 <ul>
 <?php
 	//show all threads
-	if ($totalThread>0) :
-		for ($x=0;$x<$totalThread;$x++) : ?>
+	if ($totalThread > 0) :
+		for ($x = 0;$x < $totalThread;$x++) : ?>
             <li>
                 <a href="<?php eh(url('thread/view', array('page'=>1, 'thread_id' => $threads[$x]['id'], 'user_id'=>$user['user_id'], 'username'=>$user['username']))) ?>">
                 <?php eh($threads[$x]['title']) ?>
@@ -39,12 +39,12 @@
 
 <?php
 //pagination
-if ($totalPage>1) : ?>
+if ($totalPage > 1) : ?>
 	<table>
 	    <tr>
         <?php
         //link to previous 10 pages
-        if ($start!=1) : ?>
+        if ($start != 1) : ?>
             <td>
                 <a href="<?php eh(url('thread/home', array('page'=>$previous, 'user_id' => $user['user_id'], 'username'=>$user['username']))) ?>">
                 &larr; previous
@@ -54,8 +54,8 @@ if ($totalPage>1) : ?>
         endif;
 
         //links for page number
-        for ($x=$start;$x<$nums;$x++) :
-	        if ($x!=$page) : ?>
+        for ($x = $start;$x < $nums;$x++) :
+	        if ($x != $page) : ?>
                 <td>
                     <a href="<?php eh(url('thread/home', array( 'page'=>$x, 'user_id' => $user['user_id'], 'username'=>$user['username']))) ?>">
                     <?php eh($x) ?>
@@ -71,7 +71,7 @@ if ($totalPage>1) : ?>
         endfor;
 
         //link to next 10 pages
-        if ($lastPage<$totalPage) : ?>
+        if ($lastPage < $totalPage) : ?>
             <td>
                 <a href="<?php eh(url('thread/home', array('page'=>$next, 'user_id' => $user['user_id'], 'username'=>$user['username']))) ?>">
                 next &rarr;
