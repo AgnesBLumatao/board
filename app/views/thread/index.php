@@ -14,7 +14,7 @@
 if ($invalid) : ?>
     <div class="alert alert-block">
         <h4 class="alert-heading">Login error!</h4>
-        <div>Invalid Account!</div>
+        <div><?php echo $error_message ?></div>
     </div>
 <?php
 endif ?>
