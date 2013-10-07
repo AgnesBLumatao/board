@@ -44,7 +44,7 @@ elseif ($is_error) : ?>
 elseif ($user_exist) : ?>
     <div class="alert alert-block alert-error">
         <h4 class="alert-heading">Registration error!</h4>
-        <div>Account already exist!</div>
+        <div><?php echo $error_message ?></div>
     </div>
 
 <?php endif ?>
