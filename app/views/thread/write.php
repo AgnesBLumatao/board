@@ -27,11 +27,11 @@ endif ?>
 
 
 <form class="well" method="post" action="<?php eh(url('thread/write', array('page'=>0, 'user_id'=>$user_id, 'username'=>$username))) ?>">
-	<label>Comment</label>
-	<textarea name="body"><?php eh(Param::get('body')) ?></textarea>
-	
-	<br />
-	<input type="hidden" name="thread_id" value="<?php eh($thread->id) ?>">
-	<input type="hidden" name="page_next" value="write_end">
-	<button type="submit" class="btn btn-primary">Submit</button>
+    <label>Comment</label>
+    <textarea name="body"><?php eh(Param::get('body')) ?></textarea>
+    
+    <br />
+    <input type="hidden" name="thread_id" value="<?php eh($thread->id) ?>">
+    <input type="hidden" name="page_next" value="write_end">
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
