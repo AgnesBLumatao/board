@@ -1,26 +1,26 @@
 <table width="100%">
-	<tr>
-		<td>
-		    <h1><?php eh($thread->title) ?></h1>
-		</td>
-		
-		<td align="right">
-		    <h5>WELCOME <?php eh($username) ?>
+    <tr>
+        <td>
+            <h1><?php eh($thread->title) ?></h1>
+        </td>
+        
+        <td align="right">
+            <h5>WELCOME <?php eh($username) ?>
                 <a class="btn btn-small btn-primary" href="<?php eh(url('thread/index')) ?>">LOG OUT</a>
             </h5>
-		</td>
-	</tr>
-	
-	<tr align="right">
-		<td>
-		</td>
-		
-		<td>
+        </td>
+    </tr>
+    
+    <tr align="right">
+        <td>
+        </td>
+        
+        <td>
             <a href="<?php eh(url('thread/home', array('page'=>1, 'user_id' => $user_id, 'username'=>$username))) ?>">
             back to thread
             </a>
-		</td>
-	</tr>
+        </td>
+    </tr>
 </table>
 
 <br />
@@ -38,17 +38,17 @@
 <?php
 //show all comments
 for ($x = 0;$x < $totalComment;$x++) : ?>
-	<div class="comment">
-	
-		<div class="meta">
-		    <?php eh(($previousPage) * Thread::THREAD_COMMENT_LIMIT + ($x + 1)) ?>:<?php eh($comments[$x]['created']) ?>
-		</div>
-		
-		<div>
-		    <?php eh($comments[$x]['body']) ?>
-		</div>
-	<br />
-	</div>
+    <div class="comment">
+    
+        <div class="meta">
+            <?php eh(($previousPage) * Thread::THREAD_COMMENT_LIMIT + ($x + 1)) ?>:<?php eh($comments[$x]['created']) ?>
+        </div>
+        
+        <div>
+            <?php eh($comments[$x]['body']) ?>
+        </div>
+    <br />
+    </div>
 <?php
 endfor;
 
@@ -101,11 +101,11 @@ endif ?>
 
 <hr>
 <form class="well" method="post" action="<?php eh(url('thread/write', array( 'page'=>0, 'user_id'=>$user_id, 'username'=>$username))) ?>">
-	<label>Comment</label>
-	<textarea name="body"><?php eh(Param::get('body')) ?></textarea>
-	
-	<br />
-	<input type="hidden" name="thread_id" value="<?php eh($thread->id) ?>">
-	<input type="hidden" name="page_next" value="write_end">
-	<button type="submit" class="btn btn-primary">Submit</button>
+    <label>Comment</label>
+    <textarea name="body"><?php eh(Param::get('body')) ?></textarea>
+    
+    <br />
+    <input type="hidden" name="thread_id" value="<?php eh($thread->id) ?>">
+    <input type="hidden" name="page_next" value="write_end">
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
