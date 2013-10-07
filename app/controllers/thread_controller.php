@@ -1,23 +1,32 @@
 <?php
 class ThreadController extends AppController
 {
-	const PAGE_SET = 9;
-	
-	public function register()
+    const PAGE_SET = 9;
+
+    public function register()
     {
+        $is_error = FALSE;
         $repassword = Param::get('repassword');
         $username = Param::get('username');
         $password = Param::get('password');
+
+
+        if ($password != $repassword) {
+            $is_error = true;
+            $error_message = "Password did not match";
+        }
+
+        
         $thread = new Thread;
         $account = new Account;
         $user_exist = $thread->isUserExisting($username, $password);
         $page = Param::get('page_next', 'register');
-		
-		switch ($page) {
-			case 'register':
-			    break;
-			
-			case 'register_end':
+
+        switch ($page) {
+            case 'register':
+                break;
+            
+            case 'register_end':
                 $account->username = $username;
                 $account->password = $password;
                 $account->repassword = $repassword;
@@ -29,15 +38,15 @@ class ThreadController extends AppController
                         $page = 'register';
                     }
                 } catch (ValidationException $e) {
-			        $page = 'register';
-			    }
+                    $page = 'register';
+                }
                 break;
-			
-			default:
+            
+            default:
                 throw new NotFoundException("{$page} is not found");
                 break;
-		}
-		
+        }
+        
         $this->set(get_defined_vars());
         $this->render($page);
     }
@@ -51,25 +60,21 @@ class ThreadController extends AppController
         $login = Thread::getAccount($username, $password);
         $page = Param::get('page_next', 'index');
 
-		switch ($page) {
-			case 'index':
-			    break;
+        switch ($page) {
+            case 'index':
+                break;
 
-			case 'login_end':
-			    try {
-                    if (!$login){
-                    $page = 'index';
-                    $invalid = TRUE;
-                    }
-			    } catch (ValidationException $e) {
-			        $page = 'index';
-			    }
-			    break;
+            case 'login_end':
+                if (!$login){
+                        $page = 'index';
+                        $invalid = TRUE;
+                }
+                break;
 
-			default:
+            default:
                 throw new NotFoundException("{$page} is not found");
                 break;
-		}
+        }
 
         $this->set(get_defined_vars());
         $this->render($page);
@@ -78,7 +83,7 @@ class ThreadController extends AppController
 
     public function home()
     {
-		
+        
         $page = Param::get('page');
         $user = array(
             'user_id'=>Param::get('user_id'),
@@ -90,9 +95,9 @@ class ThreadController extends AppController
         $totalPage = $tmp[2];
         $nums = $tmp[3];
         $start = $tmp[4];
-		$previous = $start - Thread::PAGE_MAX;
-		$next = $start + Thread::PAGE_MAX;
-		$lastPage = $start + self::PAGE_SET;
+        $previous = $start - Thread::PAGE_MAX;
+        $next = $start + Thread::PAGE_MAX;
+        $lastPage = $start + self::PAGE_SET;
         $this->set(get_defined_vars());
     }
 
@@ -107,12 +112,12 @@ class ThreadController extends AppController
         $page = Param::get('page_next', 'write');
         $thread = Thread::get(Param::get('thread_id'));
 
-		switch ($page) {
+        switch ($page) {
 
-			case 'write':
-			    break;
+            case 'write':
+                break;
 
-			case 'write_end':
+            case 'write_end':
                 $comment->username = $username;
                 $comment->body = Param::get('body');
 
@@ -122,11 +127,11 @@ class ThreadController extends AppController
                     $page = 'write';
                 }
                 break;
-			
-			default:
+            
+            default:
                 throw new NotFoundException("{$page} is not found");
                 break;
-		}
+        }
 
         $this->set(get_defined_vars());
         $this->render($page);
@@ -145,9 +150,9 @@ class ThreadController extends AppController
         $thread_exist = Thread::isThreadExisting($title, Param::get('user_id'));
         $page = Param::get('page_next', 'create');
 
-		switch ($page) {
-			case 'create':
-			    break;
+        switch ($page) {
+            case 'create':
+                break;
 
             case 'create_end':
                 $thread->title = $title;
@@ -160,15 +165,15 @@ class ThreadController extends AppController
                     } else {
                         $page = 'create';
                     }
-			    } catch (ValidationException $e) {
-			        $page = 'create';
-			    }
-			    break;
+                } catch (ValidationException $e) {
+                    $page = 'create';
+                }
+                break;
 
             default:
                 throw new NotFoundException("{$page} is not found");
                 break;
-		}
+        }
 
         $this->set(get_defined_vars());
         $this->render($page);
@@ -188,10 +193,10 @@ class ThreadController extends AppController
         $nums = $tmp[3];
         $start = $tmp[4];
         $page = $tmp[5];
-		$previous = $start - Thread::PAGE_MAX;
-		$next = $start + Thread::PAGE_MAX;
-		$lastPage = $start + self::PAGE_SET;
-		$previousPage = $page - 1;
+        $previous = $start - Thread::PAGE_MAX;
+        $next = $start + Thread::PAGE_MAX;
+        $lastPage = $start + self::PAGE_SET;
+        $previousPage = $page - 1;
         $this->set(get_defined_vars());
     }
 
