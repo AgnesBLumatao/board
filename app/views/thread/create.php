@@ -32,9 +32,11 @@ if ($thread->hasError() OR $comment->hasError()) : ?>
         </div>
 <?php endif ?>
     </div>
-<?php elseif ($thread_exist) : ?>
+<?php
+elseif ($is_error) : ?>
     <div class="alert alert-block">
-    <h3 class="alert-heading">Thread already exist!</h3>
+        <h4 class="alert-heading">Thread Creation error!</h4>
+        <div><?php echo $error_message ?></div>
     </div>
 <?php endif ?>
 
