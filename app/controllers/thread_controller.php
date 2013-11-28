@@ -2,6 +2,7 @@
 class ThreadController extends AppController
 {
     const PAGE_SET = 9;
+    
 
     public function register()
     {
@@ -36,6 +37,8 @@ class ThreadController extends AppController
                         $user_id = $thread->register($account);
                     } else {
                         $page = 'register';
+                        $is_error = TRUE;
+                        $error_message = "Account already exist!";
                     }
                 } catch (ValidationException $e) {
                     $page = 'register';
@@ -66,8 +69,9 @@ class ThreadController extends AppController
 
             case 'login_end':
                 if (!$login){
-                        $page = 'index';
-                        $invalid = TRUE;
+                    $page = 'index';
+                    $invalid = TRUE;
+                    $error_message = "Invalid Account!";
                 }
                 break;
 
@@ -139,7 +143,7 @@ class ThreadController extends AppController
 
     public function create()
     {
-
+        $is_error = FALSE;
         $thread = new Thread;
         $comment = new Comment;
         $user = array(
@@ -150,6 +154,13 @@ class ThreadController extends AppController
         $thread_exist = Thread::isThreadExisting($title, Param::get('user_id'));
         $page = Param::get('page_next', 'create');
 
+        if ($thread_exist) {
+            $is_error = TRUE;
+            $error_message = "Thread already exist!";
+            $page='create';
+        }
+        
+        
         switch ($page) {
             case 'create':
                 break;
@@ -162,8 +173,6 @@ class ThreadController extends AppController
                 try {
                     if (!$thread_exist) {
                         $thread->create($comment);
-                    } else {
-                        $page = 'create';
                     }
                 } catch (ValidationException $e) {
                     $page = 'create';
